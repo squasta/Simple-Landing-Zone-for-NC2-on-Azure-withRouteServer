@@ -52,7 +52,7 @@ terraform apply --var-file=configuration.tfvars
 
 4. Wait until the end of deployment (It should take less than 1 minute)
 
-<img width='800' src='./images/NC2AzureLZ-ER-Route'/> 
+<img width='800' src='./images/NC2AzureLZ-ER-Route.png'/> 
 
 If you want to connect to Prism Element or Prism Central through Internet, there is an option to enable an Azure Bastion instance and a Windows Server 2025 Virtual Machine Jumbox
 
