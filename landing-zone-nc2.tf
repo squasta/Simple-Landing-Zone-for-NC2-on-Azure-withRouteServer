@@ -149,7 +149,6 @@ resource "azurerm_subnet" "TF_Fgw_External_Subnet" {
   resource_group_name  = azurerm_resource_group.TF_RG.name
   virtual_network_name = azurerm_virtual_network.TF_PC_VNet.name
   address_prefixes     = var.FgwExternalSubnetCIDR
-  # private_endpoint_network_policies_enabled = false
 }
 
 
@@ -161,7 +160,6 @@ resource "azurerm_subnet" "TF_Fgw_Internal_Subnet" {
   resource_group_name  = azurerm_resource_group.TF_RG.name
   virtual_network_name = azurerm_virtual_network.TF_PC_VNet.name
   address_prefixes     = var.FgwInternalSubnetCIDR
-  # private_endpoint_network_policies_enabled = false
 }
 
 
@@ -174,7 +172,6 @@ resource "azurerm_subnet" "TF_BGP_Subnet" {
   resource_group_name  = azurerm_resource_group.TF_RG.name
   virtual_network_name = azurerm_virtual_network.TF_PC_VNet.name
   address_prefixes     = var.BGPSubnetCIDR
-  # private_endpoint_network_policies_enabled = false
 }
 
 # Subnet AzureBastionSubnet
@@ -186,11 +183,10 @@ resource "azurerm_subnet" "TF_Azure_Bastion_Subnet" {
   resource_group_name  = azurerm_resource_group.TF_RG.name
   virtual_network_name = azurerm_virtual_network.TF_PC_VNet.name
   address_prefixes     = var.AzureBastionSubnetCIDR
-  # private_endpoint_network_policies_enabled = false
 }
 
 
-# Azure NAT Gateway for PC VNet (attached to FgwExternalSubnet and PCSubnet)
+# Azure NAT Gateway for PC VNet (attached to FgwExternalSubnet, PCSubnet ans BGPSubnet)
 # cf. https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/nat_gateway
 # cf. https://portal.nutanix.com/page/documents/details?targetId=Nutanix-Cloud-Clusters-Azure:nc2-clusters-azure-creating-a-nat-gateway-in-azure-t.html
 resource "azurerm_nat_gateway" "TF_NATGw_PC" {
@@ -230,13 +226,20 @@ resource "azurerm_subnet_nat_gateway_association" "TF_Subnet_NATGw_Association_C
   nat_gateway_id = azurerm_nat_gateway.TF_NATGw_PC.id
 }
 
-
 # Subnet and NAT Gateway Association (PC NAT GW + FGW external Subnet)
 # cf. https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_nat_gateway_association
-resource "azurerm_subnet_nat_gateway_association" "TF_Subnet_NATGw_Association_PC" {
+resource "azurerm_subnet_nat_gateway_association" "TF_Subnet_NATGw_Association_FGWExternal" {
   subnet_id      = azurerm_subnet.TF_Fgw_External_Subnet.id
   nat_gateway_id = azurerm_nat_gateway.TF_NATGw_PC.id
 }
+
+# Subnet and NAT Gateway Association (PC NAT GW + BGP Subnet)
+# cf. https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_nat_gateway_association
+resource "azurerm_subnet_nat_gateway_association" "TF_Subnet_NATGw_Association_BGP" {
+  subnet_id      = azurerm_subnet.TF_BGP_Subnet.id
+  nat_gateway_id = azurerm_nat_gateway.TF_NATGw_PC.id
+}
+
 
 
 # Peering between Cluster VNet and PC VNet
