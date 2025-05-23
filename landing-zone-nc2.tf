@@ -1,12 +1,10 @@
 
-#### LANDING ZONE FOR NC2 on Azure (version 1) - Stanislas
+#### LANDING ZONE FOR NC2 on Azure (version 2) - Stanislas
 ####
 ####            __|__
 ####     --o--o--(_)--o--o--
 ####
-#### improvements to do
-#### make variable for peering names
-#### make variable for VNET IP range and Subnets Adresse space
+
 
 
 ### MUST READ THIS :

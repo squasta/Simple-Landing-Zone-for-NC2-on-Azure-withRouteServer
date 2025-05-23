@@ -1,4 +1,4 @@
-## Nutanix Cloud Cluster (NC2) on Azure - Simple Landing Zone for POC
+## Nutanix Cloud Cluster (NC2) on Azure - Simple Landing Zone for POC with RouteServer and Scale-out Flow Gateways
 
 ## Scenario interconnection with an Azure ExpressRoute on a Hub and Spoke topology (with Route Server)
 
@@ -62,7 +62,11 @@ If you want to connect to Prism Element or Prism Central through Internet, there
 
 <img width='600' src='./images/Step5.png'/> 
 
-<img width='600' src='./images/Step6.png'/> 
+<img width='600' src='./images/Step6-1.png'/> 
+
+<img width='600' src='./images/Step6-2.png'/> 
+
+<img width='600' src='./images/Step6-3.png'/> 
 
 6. After the deployment is successfull, you can add connectivity with on-premises or other Azure VNet or services by peering an Hub Vnet or Virtual vWAN vHub. If you enabled AzureBastion and Jumpbox VM, you can login to the Jumbox VM and connect Prism Element or Prism Central through a web browser.
 
@@ -85,6 +89,6 @@ You can use **infracost** (available on https://www.infracost.io/) to check the 
 
 <img width='800' src='./images/InfracostNC2LDZAzure.png'/> 
 
- Please have a look of metal instances prices here : https://azuremarketplace.microsoft.com/en-us/marketplace/apps/nutanixinc.nc2_azure?tab=overview. Pricing is per instance-hour consumed for each instance, from the time an instance is launched until it is terminated or stopped. 
+ Please have a look of metal instances prices here : https://azure.microsoft.com/en-us/pricing/details/nutanix-on-azure/ . Pricing is per instance-hour consumed for each instance, from the time an instance is launched until it is terminated or stopped. 
 
  Note : you don't need Azure Bastion or Jumbox 24/7. You can simply enable or disable these resources in configuration.tfvars file (0= disabled , 1=enabled) 
