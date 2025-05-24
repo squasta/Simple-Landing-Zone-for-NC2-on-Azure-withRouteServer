@@ -21,7 +21,7 @@ You can also clone this repo in your [Azure Cloud Shell](https://shell.azure.com
 
 ## What this terraform project will deploy ? Global architecture
 
-<img width='800' src='./images/NC2AzureLZ-ER-Route'/> 
+<img width='800' src='./images/NC2AzureLZ-ER-Route2.png'/> 
 
 
 
@@ -50,7 +50,7 @@ terraform plan --var-file=configuration.tfvars
 terraform apply --var-file=configuration.tfvars
 ```
 
-4. Wait until the end of deployment (It should take less than 1 minute)
+4. Wait until the end of deployment (It should take less than 15 minute, the longuest resource to deploy is Azure Route Server)
 
 <img width='800' src='./images/NC2AzureLZ-ER-Route.png'/> 
 
