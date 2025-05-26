@@ -22,7 +22,13 @@ terraform {
       # more info : https://github.com/terraform-providers/terraform-provider-azurerm
       # Check Changelog : https://github.com/terraform-providers/terraform-provider-azurerm/blob/master/CHANGELOG.md
       source  = "hashicorp/azurerm"
-      version = "= 3.91"
+      version = "= 3.91.0" # Pin to a specific version of the provider
+    }
+
+    # https://github.com/hashicorp/terraform-provider-time
+    time = {
+      source  = "hashicorp/time"
+      version = "0.13.1"
     }
 
   }
@@ -37,4 +43,8 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
+}
+
+provider "time" {
+  # Configuration options
 }

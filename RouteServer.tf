@@ -53,6 +53,14 @@ resource "azurerm_public_ip" "TF_RouteServer_PIP" {
     sku                 = "Standard"
 }
 
+# small timer to wait the public IP of Route Server to be ready
+# cf. https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep
+resource "time_sleep" "TF_wait_30_seconds" {
+  depends_on = [azurerm_public_ip.TF_RouteServer_PIP]
+
+  create_duration = "30s"
+}
+
 
 # cf. https://learn.microsoft.com/en-us/azure/route-server/route-server-overview
 # cf. https://registry.terraform.io/providers/hashicorp/Azurerm/latest/docs/resources/route_server
@@ -63,6 +71,7 @@ resource "azurerm_route_server" "TF_RouteServer" {
     subnet_id             = azurerm_subnet.TF_RouteServer_Subnet.id
     public_ip_address_id  = azurerm_public_ip.TF_RouteServer_PIP.id
     sku                   = "Standard"
+    depends_on = [ time_sleep.TF_wait_30_seconds ]
 }
 
 
@@ -85,6 +94,9 @@ resource "azurerm_virtual_network_peering" "PCVNet_to_RouteServerVNet" {
     remote_virtual_network_id = azurerm_virtual_network.TF_RouteServer_VNet.id
     allow_forwarded_traffic   = true
     allow_gateway_transit     = false
+    # Enable 'pc-vnet-germanywestcentral' to use 'routesrv-vnet-germanywestcentral's' remote gateway
+    # or route server
+    # cf. https://learn.microsoft.com/en-us/azure/route-server/route-server-faq#does-azure-route-server-support-virtual-network-peering
     use_remote_gateways       = false
 }
 
